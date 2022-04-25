@@ -93,6 +93,8 @@ class BarrierGraph:
     def initConstrains(self):
         self.vertex_constraints = [0]*(self.n*(self.h+1) + 1)
         self.edge_constraints = [[0]*self.n for i in range(self.n)]
+        s = 0
+        t = self.n*(self.h+1)
 
         for _from in range(self.n):
             for _to in range(self.n):
@@ -106,7 +108,7 @@ class BarrierGraph:
 
                     #print(_from, _to)
 
-                    if _from != 0:
+                    if from_aux != s:
                         self.vertex_constraints[from_aux] -= self.variables[from_aux][to_aux]
                     if _to != self.n-1:
                         self.vertex_constraints[to_aux] += self.variables[from_aux][to_aux]
@@ -120,7 +122,7 @@ class BarrierGraph:
                             self.edge_constraints[_from][_to] += self.variables[from_aux][to_aux]
                             #print(_from, _to)
 
-                            if _from != 0:
+                            if from_aux != s:
                                 self.vertex_constraints[from_aux] -= self.variables[from_aux][to_aux]
                             if _to != self.n-1:
                                 self.vertex_constraints[to_aux] += self.variables[from_aux][to_aux]
@@ -134,7 +136,7 @@ class BarrierGraph:
                             self.edge_constraints[_from][_to] += self.variables[from_aux][to_aux]
                             #print(_from, _to)
 
-                            if _from != 0:
+                            if from_aux != s:
                                 self.vertex_constraints[from_aux] -= self.variables[from_aux][to_aux]
                             if _to != self.n-1:
                                 self.vertex_constraints[to_aux] += self.variables[from_aux][to_aux]
@@ -184,6 +186,13 @@ class BarrierGraph:
 
     def solve(self):
         status = self.solver.Solve()
+
+        if status != pywraplp.Solver.OPTIMAL:
+            print('The problem does not have an optimal solution')
+
+        print(f'Problem solved in {self.solver.wall_time()} milliseconds')
+        print(f'Problem solved in {self.solver.iterations()} iterations')
+
         print('Max flow is: ', self.solver.Objective().Value())
 
         aux_size = self.n*(self.h+1)+1
