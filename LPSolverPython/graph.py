@@ -189,15 +189,18 @@ class BarrierGraph:
 
         if status != pywraplp.Solver.OPTIMAL:
             print('The problem does not have an optimal solution')
+            return -1
 
-        print(f'Problem solved in {self.solver.wall_time()} milliseconds')
-        print(f'Problem solved in {self.solver.iterations()} iterations')
+        #print(f'Problem solved in {self.solver.wall_time()} milliseconds')
+        #print(f'Problem solved in {self.solver.iterations()} iterations')
+        return self.solver.Objective().Value()
+        #print('Max flow is: ', self.solver.Objective().Value())
 
-        print('Max flow is: ', self.solver.Objective().Value())
-
+        '''
         aux_size = self.n*(self.h+1)+1
         for i in range(aux_size):
             for j in range(aux_size):
                 if self.variables[i][j]:
                     print(self.variables[i][j],
                           self.variables[i][j].solution_value())
+        '''
