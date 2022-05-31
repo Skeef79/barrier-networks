@@ -171,12 +171,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Graph.cpp" />
+    <ClCompile Include="src\Algo\breakthrough.cpp" />
+    <ClCompile Include="src\Algo\capacity_distribution.cpp" />
+    <ClCompile Include="src\Algo\dinic.cpp" />
+    <ClCompile Include="src\Algo\utils.cpp" />
+    <ClCompile Include="src\Graph\graph.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Utils\math.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Graph.h" />
-    <ClInclude Include="src\utils.h" />
+    <ClInclude Include="src\Algo\breakthrough.h" />
+    <ClInclude Include="src\Algo\capacity_distribution.h" />
+    <ClInclude Include="src\Algo\dinic.h" />
+    <ClInclude Include="src\Algo\utils.h" />
+    <ClInclude Include="src\Graph\graph.h" />
+    <ClInclude Include="src\Utils\math.h" />
+    <ClInclude Include="src\Utils\utils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="input.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
