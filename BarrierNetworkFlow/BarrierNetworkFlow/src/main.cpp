@@ -33,7 +33,14 @@ int main(int argc, char* argv[]) {
 
 	CapacityDistributionAlgo capacityDistributionAlgo(g);
 
-	auto res = capacityDistributionAlgo.getMaxFlow(s, t, 500,100);
+	auto [flowValue, flow] = capacityDistributionAlgo.getMaxFlow(s, t, 400, 50);
+
+	if (!checkCorrectness(g, flow)) {
+		cout << "The flow is incorrect";
+		exit(1);
+	}
+
+	cout << flowValue << endl;
 
 	/*BreakThroughAlgo breakThroughAlgo(g);
 

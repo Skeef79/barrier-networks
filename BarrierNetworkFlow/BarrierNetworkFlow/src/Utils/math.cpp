@@ -1,5 +1,4 @@
 #include "math.h"
-
 static mt19937 rndGen(2022);
 
 int Math::genInt(int l, int r) {
@@ -17,27 +16,32 @@ double Math::genDouble(double l, double r) {
 	return uid(rndGen);
 }
 
-vector<int> Math::genCapacityDistribution(int n, int cap) {
+vector<flowT> Math::genCapacityDistribution(int n, flowT cap) {
 	//generate vector of random doubles first
 	vector<double> c(n);
 	for (int i = 0; i < n; i++)
 		c[i] = genDouble();
 
-	vector<int>result(n);
+	vector<flowT>result(n);
 	double sum = accumulate(c.begin(), c.end(), double(0));
 	//normalize and multiply by cap and lower bound double
 	for (int i = 0; i < n; i++) {
 		result[i] = c[i] / sum * cap;
 	}
+	if (cap > 100000) {
+		vector<int>kek = {};
+		vector<int>lol = {};
+
+	}
 
 	//add remaining sum to some values
-	int nsum = accumulate(result.begin(), result.end(), 0);
+	flowT nsum = accumulate(result.begin(), result.end(), flowT(0));
 	for (int it = 0; it < cap - nsum; it++) {
 		int i = genInt(n);
 		result[i]++;
 	}
 
-	assert(accumulate(result.begin(), result.end(), 0) == cap);
+	assert(accumulate(result.begin(), result.end(), flowT(0)) == cap);
 	return result;
 }
 
@@ -48,6 +52,8 @@ bool Math::isProb(double p) {
 
 
 int Math::getRandomIndex(vector<double> distr) {
+	if (distr.size() == 1)
+		return 0;
 	discrete_distribution<>dist(distr.begin(), distr.end());
 	return dist(rndGen);
 }

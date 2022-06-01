@@ -20,6 +20,7 @@ string BarrierGraph::StrType(EdgeType edgeType) {
 void BarrierGraph::AddEdge(int from, int to, flowT cap, EdgeType type) {
 	g[from].emplace_back(from, to, type);
 	capacity[from][to] = cap;
+	edges.emplace_back(Edge(from, to, type));
 }
 
 
@@ -30,7 +31,7 @@ BarrierGraph::BarrierGraph(int n, int h) : n(n), h(h) {
 	capacity = vector<vector<flowT>>(n + 1, vector<flowT>(n + 1));
 	capacity[n - 1][n] = INF;
 	edgeTypes = vector<vector<EdgeType>>(n + 1, vector<EdgeType>(n + 1, EdgeType::neutral));
-
+	initialToAux = vector<vector<vector<pair<int, int>>>>(n + 1, vector<vector<pair<int, int>>>(n + 1));
 }
 
 void BarrierGraph::InputGraph(ifstream& fin) {
@@ -54,6 +55,8 @@ void BarrierGraph::AddAuxEdge(int from, int to, int fromInitial, int toInitial, 
 	auxEdges.push_back(auxEdge(to, from, toInitial, fromInitial, edgeIndex));
 	auxEdges.back().capacity = 0;
 	auxG[to].push_back((int)auxEdges.size() - 1);
+	initialToAux[fromInitial][toInitial].push_back({ from,to });
+	initialToAux[toInitial][fromInitial].push_back({ to,from });
 }
 
 void BarrierGraph::BuildAuxGraph() {

@@ -33,15 +33,13 @@ public:
 	//initialGraph
 	vector<vector<Edge>>g;
 	vector<vector<int>> auxG;
+	vector<Edge>edges;
 	vector<auxEdge> auxEdges;
 	vector<vector<EdgeType>> edgeTypes;
-	//vector<vector<int>> flow;
 	vector<vector<flowT>>capacity;
-	// 
-	//vector<bool>used;
+	vector<vector<vector<pair<int, int>>>> initialToAux;
 
 	int n, h, auxN;
-
 	BarrierGraph(int n, int h);
 
 	string StrType(EdgeType edgeType);

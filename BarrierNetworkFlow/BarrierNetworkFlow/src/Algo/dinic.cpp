@@ -20,9 +20,9 @@ bool DinicAlgo::bfs() {
 		for (auto id : g.auxG[v]) {
 			int to = g.auxEdges[id].to;
 
-			int fromInitial = g.auxEdges[to].fromInitial;
-			int toInitial = g.auxEdges[to].toInitial;
-			int edgeIndex = g.auxEdges[to].edgeIndex;
+			int fromInitial = g.auxEdges[id].fromInitial;
+			int toInitial = g.auxEdges[id].toInitial;
+			int edgeIndex = g.auxEdges[id].edgeIndex;
 
 			if (d[to] == -1 && auxFlow[v][to] < capacity[fromInitial][toInitial][edgeIndex]) {
 				d[to] = d[v] + 1;
@@ -43,9 +43,9 @@ flowT DinicAlgo::dfs(int v, flowT currentFlow) {
 		int id = g.auxG[v][pt[v]];
 		int to = g.auxEdges[id].to;
 
-		int fromInitial = g.auxEdges[to].fromInitial;
-		int toInitial = g.auxEdges[to].toInitial;
-		int edgeIndex = g.auxEdges[to].edgeIndex;
+		int fromInitial = g.auxEdges[id].fromInitial;
+		int toInitial = g.auxEdges[id].toInitial;
+		int edgeIndex = g.auxEdges[id].edgeIndex;
 
 		if (d[to] == d[v] + 1 && auxFlow[v][to] < capacity[fromInitial][toInitial][edgeIndex]) {
 			flowT pushed = dfs(to, min(currentFlow, capacity[fromInitial][toInitial][edgeIndex] - auxFlow[v][to]));
@@ -59,7 +59,7 @@ flowT DinicAlgo::dfs(int v, flowT currentFlow) {
 	return 0;
 }
 
-flowT DinicAlgo::getMaxFlow() {
+pair<flowT, vector<vector<flowT>>> DinicAlgo::getMaxFlow() {
 	flowT resultFlow = 0;
 	flowT currentFlow;
 	while (bfs()) {
@@ -67,6 +67,6 @@ flowT DinicAlgo::getMaxFlow() {
 		while (currentFlow = dfs(s, INF))
 			resultFlow += currentFlow;
 	}
-	return resultFlow;
-	//maybe there I shoult return also flows for each edge 
+
+	return { resultFlow, auxFlow };
 }
