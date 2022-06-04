@@ -18,6 +18,10 @@ using namespace std;
 int main(int argc, char* argv[]) {
 
 	//string fname = argv[1];
+	//bool breakThroughInit = argv[2];
+
+	bool breakThroughInit = true;
+
 	string fname = "input.txt";
 	ifstream fin(fname);
 
@@ -30,10 +34,28 @@ int main(int argc, char* argv[]) {
 	g.BuildAuxGraph();
 
 	int s = 0, t = g.auxN - 1;
+	BreakThroughAlgo breakThroughAlgo(g);
+	auto [flowValue1, flow1] = breakThroughAlgo.getMaxFlow(0, g.auxN - 1);
+
+	if (!checkCorrectness(g, flow1)) {
+		cout << "The flow is incorrect";
+		exit(1);
+	}
+
+	double endTime = clock();
+	cout << flowValue1 << ' ' << fixed << setprecision(4) << (endTime - startTime) / 1000;
+
+	cout << endl << endl;
+
 
 	CapacityDistributionAlgo capacityDistributionAlgo(g);
 
-	auto [flowValue, flow] = capacityDistributionAlgo.getMaxFlow(s, t, 400, 50);
+	flowT flowValue;
+	vector<vector<flowT>> flow;
+	if (breakThroughInit)
+		tie(flowValue, flow) = capacityDistributionAlgo.getMaxFlow(s, t, 300, 20, true, flow1);
+	else
+		tie(flowValue, flow) = capacityDistributionAlgo.getMaxFlow(s, t, 300, 20);
 
 	if (!checkCorrectness(g, flow)) {
 		cout << "The flow is incorrect";
@@ -42,17 +64,6 @@ int main(int argc, char* argv[]) {
 
 	cout << flowValue << endl;
 
-	/*BreakThroughAlgo breakThroughAlgo(g);
-
-	auto [flowValue, flow] = breakThroughAlgo.getMaxFlow(0, g.auxN - 1);
-
-	if (!checkCorrectness(g, flow)) {
-		cout << "The flow is incorrect";
-		exit(1);
-	}
-
-	double endTime = clock();
-	cout << flowValue << ' ' << fixed << setprecision(4) << (endTime - startTime) / 1000;*/
 
 
 

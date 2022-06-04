@@ -28,11 +28,6 @@ vector<flowT> Math::genCapacityDistribution(int n, flowT cap) {
 	for (int i = 0; i < n; i++) {
 		result[i] = c[i] / sum * cap;
 	}
-	if (cap > 100000) {
-		vector<int>kek = {};
-		vector<int>lol = {};
-
-	}
 
 	//add remaining sum to some values
 	flowT nsum = accumulate(result.begin(), result.end(), flowT(0));
