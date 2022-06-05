@@ -55,10 +55,11 @@ vector<flowT> mutateGeneOptimize(vector<flowT> caps, vector<flowT> flows, flowT 
 	for (int i = 0; i < caps.size(); i++) {
 		distr[i] = (freeCap - distr[i]);
 		distr[i] += Math::genDouble(0, 1) * distr[i] / 2;
+		distr[i] += EPS;
 	}
 
 	//maybe EPS is not the best)
-	double total = accumulate(distr.begin(), distr.end(), double(0)) + EPS;
+	double total = accumulate(distr.begin(), distr.end(), double(0));
 
 	flowT capAdded = 0;
 	for (int i = 0; i < result.size(); i++) {
@@ -203,7 +204,7 @@ pair<flowT, vector<vector<flowT>>> CapacityDistributionAlgo::getMaxFlow(int s, i
 		}
 
 		//log current iteration
-		logIteration(iteration, populationFitness);
+		//logIteration(iteration, populationFitness);
 
 		double avgFitness = accumulate(populationFitness.begin(), populationFitness.end(), double(0)) / POPULATION_SIZE;
 		vector<double>crossoverDistribution(POPULATION_SIZE);

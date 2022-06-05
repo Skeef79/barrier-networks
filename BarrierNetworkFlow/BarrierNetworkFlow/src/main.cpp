@@ -48,21 +48,23 @@ int main(int argc, char* argv[]) {
 	cout << endl << endl;
 
 
+	startTime = clock();
 	CapacityDistributionAlgo capacityDistributionAlgo(g);
 
 	flowT flowValue;
 	vector<vector<flowT>> flow;
 	if (breakThroughInit)
-		tie(flowValue, flow) = capacityDistributionAlgo.getMaxFlow(s, t, 300, 20, true, flow1);
+		tie(flowValue, flow) = capacityDistributionAlgo.getMaxFlow(s, t, 10, 2, true, flow1);
 	else
-		tie(flowValue, flow) = capacityDistributionAlgo.getMaxFlow(s, t, 300, 20);
+		tie(flowValue, flow) = capacityDistributionAlgo.getMaxFlow(s, t, 10, 2);
 
 	if (!checkCorrectness(g, flow)) {
 		cout << "The flow is incorrect";
 		exit(1);
 	}
 
-	cout << flowValue << endl;
+	endTime = clock();
+	cout << flowValue << ' ' << fixed << setprecision(4) << (endTime - startTime) / 1000;
 
 
 
