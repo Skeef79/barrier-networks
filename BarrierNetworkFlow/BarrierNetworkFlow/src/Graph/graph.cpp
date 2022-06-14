@@ -42,7 +42,8 @@ void BarrierGraph::InputGraph(ifstream& fin) {
 		flowT capacity;
 		int edgeType;
 		fin >> from >> to >> capacity >> edgeType;
-		BarrierGraph::AddEdge(from, to, capacity, EdgeType(edgeType));
+		if (capacity != 0)
+			BarrierGraph::AddEdge(from, to, capacity, EdgeType(edgeType));
 		edgeTypes[from][to] = edgeTypes[to][from] = EdgeType(edgeType);
 	}
 }
@@ -100,111 +101,36 @@ void BarrierGraph::BuildAuxGraph() {
 
 }
 
+/*
+void  BarrierGraph::SortEdges() {
+	//sort edges
+	for (int i = 0; i < auxG.size(); i++) {
 
-//void  BarrierGraph::SortEdges() {
-//	//sort edges
-//	for (int i = 0; i < auxG.size(); i++) {
-//
-//		sort(auxG[i].begin(), auxG[i].end(), [&](int id1, int id2) {
-//			int from1 = auxEdges[id1].fromInitial;
-//			int to1 = auxEdges[id1].toInitial;
-//
-//			int from2 = auxEdges[id2].fromInitial;
-//			int to2 = auxEdges[id2].toInitial;
-//
-//			EdgeType edgeType1 = edgeTypes[from1][to1];
-//			EdgeType edgeType2 = edgeTypes[from2][to2];
-//
-//			if (edgeType1 == edgeType2) {
-//				return capacity[from1][to1] > capacity[from2][to2];
-//			}
-//			else {
-//				if (edgeType1 == EdgeType::increase)
-//					return true;
-//				else
-//					if (edgeType2 == EdgeType::increase)
-//						return false;
-//					else
-//						return capacity[from1][to1] > capacity[from2][to2];
-//			}
-//			});
-//	}
-//
-//}
+		sort(auxG[i].begin(), auxG[i].end(), [&](int id1, int id2) {
+			int from1 = auxEdges[id1].fromInitial;
+			int to1 = auxEdges[id1].toInitial;
 
+			int from2 = auxEdges[id2].fromInitial;
+			int to2 = auxEdges[id2].toInitial;
 
+			EdgeType edgeType1 = edgeTypes[from1][to1];
+			EdgeType edgeType2 = edgeTypes[from2][to2];
 
-//int BarrierGraph::GetPath(int v, int currentFlow, int t, vector<int>& path, int barrierLevel = 0) {
-//	if (!currentFlow)
-//		return 0;
-//
-//	if (v == t)
-//		return currentFlow;
-//
-//	for (auto id : auxG[v]) {
-//		int to = auxEdges[id].to;
-//		int fromInitial = auxEdges[id].fromInitial;
-//		int toInitial = auxEdges[id].toInitial;
-//		if (id & 1)
-//			continue;
-//
-//		if (!used[to] && flow[fromInitial][toInitial] > 0) {
-//			if (edgeTypes[fromInitial][toInitial] == EdgeType::barrier) {
-//				if (barrierLevel >= h) {
-//					int pushed = GetPath(to, min(currentFlow, flow[fromInitial][toInitial]), t, path, 0);
-//					if (pushed) {
-//						path.push_back(toInitial);
-//						flow[fromInitial][toInitial] -= pushed;
-//						return pushed;
-//					}
-//				}
-//			}
-//			else
-//				if (edgeTypes[fromInitial][toInitial] == EdgeType::increase) {
-//					int pushed = GetPath(to, min(currentFlow, flow[fromInitial][toInitial]), t, path, barrierLevel + 1);
-//					if (pushed) {
-//						path.push_back(toInitial);
-//						flow[fromInitial][toInitial] -= pushed;
-//						return pushed;
-//					}
-//				}
-//				else {
-//					int pushed = GetPath(to, min(currentFlow, flow[fromInitial][toInitial]), t, path, barrierLevel);
-//					if (pushed) {
-//						path.push_back(toInitial);
-//						flow[fromInitial][toInitial] -= pushed;
-//						return pushed;
-//					}
-//				}
-//		}
-//	}
-//
-//	return 0;
-//}
-//
-//vector<pair<int, vector<int>>> BarrierGraph::DecomposeIntoPaths(int s, int t) {
-//	vector<pair<int, vector<int>>>paths;
-//
-//	int currentFlow = 0;
-//	vector<int>path;
-//
-//	fill(used.begin(), used.end(), false);
-//	while (currentFlow = GetPath(s, INF, t, path)) {
-//		reverse(path.begin(), path.end());
-//		paths.push_back({ currentFlow, path });
-//		path.clear();
-//
-//		fill(used.begin(), used.end(), false);
-//	}
-//
-//	return paths;
-//}
-//
-//bool BarrierGraph::CheckAfterDecompose() {
-//	for (int i = 0; i < n; i++)
-//		for (int j = 0; j < n; j++)
-//			if (flow[i][j] != 0) {
-//				return false;
-//			}
-//	return true;
-//}
+			if (edgeType1 == edgeType2) {
+				return capacity[from1][to1] > capacity[from2][to2];
+			}
+			else {
+				if (edgeType1 == EdgeType::increase)
+					return true;
+				else
+					if (edgeType2 == EdgeType::increase)
+						return false;
+					else
+						return capacity[from1][to1] > capacity[from2][to2];
+			}
+			});
+	}
+
+}
+*/
+

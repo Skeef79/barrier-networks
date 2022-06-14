@@ -58,7 +58,6 @@ vector<flowT> mutateGeneOptimize(vector<flowT> caps, vector<flowT> flows, flowT 
 		distr[i] += EPS;
 	}
 
-	//maybe EPS is not the best)
 	double total = accumulate(distr.begin(), distr.end(), double(0));
 
 	flowT capAdded = 0;
@@ -153,7 +152,7 @@ pair<flowT, vector<vector<flowT>>> CapacityDistributionAlgo::getMaxFlow(int s, i
 	int mutationCnt = max(1, int(double(mutationPercent) / 100 * POPULATION_SIZE));
 	int mutationChangesCnt = max(1, int(double(mutationChangesPercent) / 100 * graph.edges.size()));
 
-	double randomIndividualProb = 0.3;
+	double randomIndividualProb = 0.0;
 
 	//init population
 	population.clear();
@@ -203,6 +202,7 @@ pair<flowT, vector<vector<flowT>>> CapacityDistributionAlgo::getMaxFlow(int s, i
 			}
 		}
 
+		break;
 		//log current iteration
 		//logIteration(iteration, populationFitness);
 
@@ -252,6 +252,13 @@ pair<flowT, vector<vector<flowT>>> CapacityDistributionAlgo::getMaxFlow(int s, i
 
 		population = newPopulation;
 
+	}
+
+	for (int i = 0; i < bestFlows.size(); i++) {
+		for (int j = 0; j < bestFlows.size(); j++) {
+			if (bestFlows[i][j] < 0)
+				bestFlows[i][j] = 0;
+		}
 	}
 
 	return { bestFitness, bestFlows };

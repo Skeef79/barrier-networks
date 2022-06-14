@@ -10,6 +10,7 @@
 #include "Algo/utils.h"
 #include "Utils/math.h"
 #include "Algo/capacity_distribution.h"
+#include "Algo/restore.h"
 
 #pragma warning(disable : 4996)
 
@@ -18,7 +19,7 @@ using namespace std;
 int main(int argc, char* argv[]) {
 
 	//string fname = argv[1];
-	//bool breakThroughInit = argv[2];
+	//bool breakThroughInit = stoi(argv[2]);
 
 	bool breakThroughInit = true;
 
@@ -42,31 +43,37 @@ int main(int argc, char* argv[]) {
 		exit(1);
 	}
 
-	double endTime = clock();
-	cout << flowValue1 << ' ' << fixed << setprecision(4) << (endTime - startTime) / 1000;
+	//cout << flowValue1 << ' ' << fixed << setprecision(4) << (endTime - startTime) / 1000;
+	//cout << endl << endl;
 
-	cout << endl << endl;
-
-
-	startTime = clock();
 	CapacityDistributionAlgo capacityDistributionAlgo(g);
 
 	flowT flowValue;
 	vector<vector<flowT>> flow;
 	if (breakThroughInit)
-		tie(flowValue, flow) = capacityDistributionAlgo.getMaxFlow(s, t, 10, 2, true, flow1);
+		tie(flowValue, flow) = capacityDistributionAlgo.getMaxFlow(s, t, 1, 2, true, flow1);
 	else
-		tie(flowValue, flow) = capacityDistributionAlgo.getMaxFlow(s, t, 10, 2);
+		tie(flowValue, flow) = capacityDistributionAlgo.getMaxFlow(s, t, 10, 6);
 
 	if (!checkCorrectness(g, flow)) {
 		cout << "The flow is incorrect";
 		exit(1);
 	}
 
-	endTime = clock();
+
+	double endTime = clock();
 	cout << flowValue << ' ' << fixed << setprecision(4) << (endTime - startTime) / 1000;
 
+	cout << endl;
+	PathRestore pathRestore(g);
+	auto paths = pathRestore.restore(s, t, flow);
 
-
-
+	int i = 1;
+	for (auto [path, f] : paths) {
+		cout << "Path " << i << " with flow " << f << ": ";
+		for (auto to : path)
+			cout << to << ' ';
+		cout << endl;
+		i++;
+	}
 }

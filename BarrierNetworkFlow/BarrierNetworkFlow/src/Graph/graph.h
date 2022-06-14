@@ -51,17 +51,5 @@ public:
 	void AddAuxEdge(int from, int to, int fromInitial, int toInitial, int edgeIndex);
 
 	void BuildAuxGraph();
-
-
-	//int GetMaxFlow(int s, int t);
-
-	//int dfsBreakthrough(int v, int currentFlow, int t);
-
-	//int GetPath(int v, int currentFlow, int t, vector<int>& path, int barrierLevel);
-
-	//decompose initial graph into paths
-	//vector<pair<int, vector<int>>> DecomposeIntoPaths(int s, int t);
-
-	//bool CheckAfterDecompose();
 };
 
