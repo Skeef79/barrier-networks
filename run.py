@@ -6,7 +6,10 @@ import datetime
 TESTS_DIR = "TestGenerator/tests"
 LP_SOLVER_PATH = "LPSolverPython//linear_solver.py"
 BR_SOLVER_PATH = "Solutions//Greedy//solution.exe"
-HE_SOLVER_PATH = "Solutions//Heuristic//solution.exe"
+HE_SOLVER_PATH = "Solutions//Heuristic//sol_break_4.exe"
+HE2_SOLVER_PATH = "Solutions//Heuristic//sol_n_div_10_n_div_20.exe"
+HE3_SOLVER_PATH = "Solutions//Heuristic//sol_10_3.exe"
+
 dt = datetime.datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
 RESULTS_PATH = f"Results/runs_{dt}.txt"
 
@@ -41,15 +44,27 @@ def main():
         he_solver_out = check_output([HE_SOLVER_PATH, test_path, "1"])
         he_solver_flow, he_solver_time = get_flow_time(he_solver_out)
 
+        he2_solver_out = check_output([HE2_SOLVER_PATH, test_path, "1"])
+        he2_solver_flow, he2_solver_time = get_flow_time(he2_solver_out)
+
+        he3_solver_out = check_output([HE3_SOLVER_PATH, test_path, "1"])
+        he3_solver_flow, he3_solver_time = get_flow_time(he3_solver_out)
+
         print(" Linear solver:")
         print(f"    max-flow: {lp_solver_flow}")
         print(f"    time: {lp_solver_time}")
         print(" Breakthrough algo:")
         print(f"    max-flow: {br_solver_flow}")
         print(f"    time: {br_solver_time}")
-        print(" Heuristic solver:")
+        print(" Heuristic solver 1:")
         print(f"    max-flow: {he_solver_flow}")
         print(f"    time: {he_solver_time}")
+        print(" Heuristic solver 2:")
+        print(f"    max-flow: {he2_solver_flow}")
+        print(f"    time: {he2_solver_time}")
+        print(" Heuristic solver 3:")
+        print(f"    max-flow: {he3_solver_flow}")
+        print(f"    time: {he3_solver_time}")
         print()
 
         n, h, p, d0, d1, d2 = test_filenames[i].split("_")
@@ -58,8 +73,8 @@ def main():
             f.write(f"{lp_solver_flow} {lp_solver_time}\n")
             f.write(f"{br_solver_flow} {br_solver_time}\n")
             f.write(f"{he_solver_flow} {he_solver_time}\n")
-
-        # append shit and so on
+            f.write(f"{he2_solver_flow} {he2_solver_time}\n")
+            f.write(f"{he3_solver_flow} {he3_solver_time}\n")
 
         # n,h,
     '''

@@ -202,7 +202,6 @@ pair<flowT, vector<vector<flowT>>> CapacityDistributionAlgo::getMaxFlow(int s, i
 			}
 		}
 
-		break;
 		//log current iteration
 		//logIteration(iteration, populationFitness);
 

@@ -18,12 +18,12 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
 
-	//string fname = argv[1];
-	//bool breakThroughInit = stoi(argv[2]);
+	string fname = argv[1];
+	bool breakThroughInit = stoi(argv[2]);
 
-	bool breakThroughInit = true;
+	//bool breakThroughInit = true;
 
-	string fname = "input.txt";
+	//string fname = "input.txt";
 	ifstream fin(fname);
 
 	int n, h;
@@ -50,10 +50,14 @@ int main(int argc, char* argv[]) {
 
 	flowT flowValue;
 	vector<vector<flowT>> flow;
+
+	int ITERATIONS = max(2, (n + 9) / 10);
+	int POPULATION_SIZE = max(2, (n + 9) / 20);
+
 	if (breakThroughInit)
-		tie(flowValue, flow) = capacityDistributionAlgo.getMaxFlow(s, t, 1, 2, true, flow1);
+		tie(flowValue, flow) = capacityDistributionAlgo.getMaxFlow(s, t, ITERATIONS, POPULATION_SIZE, true, flow1);
 	else
-		tie(flowValue, flow) = capacityDistributionAlgo.getMaxFlow(s, t, 10, 6);
+		tie(flowValue, flow) = capacityDistributionAlgo.getMaxFlow(s, t, ITERATIONS, POPULATION_SIZE);
 
 	if (!checkCorrectness(g, flow)) {
 		cout << "The flow is incorrect";
@@ -64,7 +68,7 @@ int main(int argc, char* argv[]) {
 	double endTime = clock();
 	cout << flowValue << ' ' << fixed << setprecision(4) << (endTime - startTime) / 1000;
 
-	cout << endl;
+	/*cout << endl;
 	PathRestore pathRestore(g);
 	auto paths = pathRestore.restore(s, t, flow);
 
@@ -75,5 +79,5 @@ int main(int argc, char* argv[]) {
 			cout << to << ' ';
 		cout << endl;
 		i++;
-	}
+	}*/
 }
